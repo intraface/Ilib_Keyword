@@ -110,6 +110,6 @@
           --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
           --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
           --coverage-html ${reports.coverage.dir}/
-          Keyword_AllTests AllTests.php" passthru="true" />
+          Keyword_AllTests AllTests.php" passthru="true" checkreturn="true" />
     </target>
 </project>
