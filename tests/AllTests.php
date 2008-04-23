@@ -2,6 +2,8 @@
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
+PHPUnit_Util_Filter::addDirectoryToWhitelist(realpath(dirname(__FILE__) . '/../src/'));
+
 class Keyword_AllTests
 {
     public static function suite()
