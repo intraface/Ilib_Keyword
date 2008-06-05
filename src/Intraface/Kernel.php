@@ -21,39 +21,10 @@ class FakeKernel {
      * We should actually return an object, but lets see how this works
      */
     public function module($module) {
-        switch($module) {
-            case 'filemanager':
-                require_once 'Intraface/modules/filemanager/FileManager.php';
-                require_once 'Intraface/shared/filehandler/FileHandler.php';
-                require_once 'Intraface/shared/keyword/Keyword.php';
-
-                break;
-            default:
-                trigger_error('The module is not installed!', E_USER_ERROR);
-
-        }
-
-        require_once 'Intraface/Module.php';
-        return New FakeModule($module);
-
     }
 
     public function useShared($shared)
     {
-        switch($shared) {
-            case 'filehandler':
-                require_once 'Intraface/shared/filehandler/FileHandler.php';
-                break;
-            case 'keyword':
-                require_once 'Intraface/shared/keyword/Keyword.php';
-                break;
-
-            default:
-                trigger_error('Shared '.$shared.' is not installed!', E_USER_ERROR);
-                exit;
-        }
-        require_once 'Intraface/Shared.php';
-        return new FakeShared($shared);
     }
 
     public function getTranslation($page_id)

@@ -8,8 +8,6 @@
  * @author Lars Olesen <lars@legestue.net>
  * @package Ilib_Keyword
  */
-require_once 'Ilib/Error.php';
-require_once 'Ilib/Validator.php';
 require_once 'Intraface/functions/functions.php';
 require_once 'DB/Sql.php';
 
