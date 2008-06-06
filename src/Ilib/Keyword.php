@@ -8,9 +8,9 @@
  * @author Lars Olesen <lars@legestue.net>
  * @package Ilib_Keyword
  */
-require_once 'Intraface/functions/functions.php';
+require_once 'Ilib/Keyword/functions.php';
 
-abstract class Ilib_Keyword
+abstract class Ilib_Abstract_Keyword
 {
     /**
      * @var integer
@@ -113,7 +113,7 @@ abstract class Ilib_Keyword
 
 }
 
-class Keyword extends Ilib_Keyword
+class Ilib_Keyword extends Ilib_Abstract_Keyword
 {
     /**
      * @var object
@@ -177,12 +177,16 @@ class Keyword extends Ilib_Keyword
                     $this->type = 'file_handler';
                     $this->object = $object;
                     break;
+                case 'ilib_filehandler_manager':
+                    $this->type = 'file_handler';
+                    $this->object = $object;
+                    break;
                 case 'vih_news':
                     $this->type = 'vih_news';
                     $this->object = $object;
                     break;
                 default:
-                    trigger_error('Keyword kræver enten Customer, CMSPage, Product eller FileManager som object', E_USER_ERROR);
+                    trigger_error('Keyword got ' . get_class($object), E_USER_ERROR);
                     break;
             }
 
