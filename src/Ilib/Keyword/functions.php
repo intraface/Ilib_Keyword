@@ -14,14 +14,14 @@ if (!function_exists('safeToDb')) {
         $GLOBALS['_global_function_callback_safetodb'] = NULL;
     }
 }
-$GLOBALS['_global_function_callback_safetodb'] = 'ilib_filehandler_safetodb';
+$GLOBALS['_global_function_callback_safetodb'] = 'ilib_keyword_safetodb';
 
 /**
  * Function to be called before putting data in the database
  *
  * @author  Lars Olesen <lars@legestue.net>
  */
-function ilib_filehandler_safetodb($data) 
+function ilib_keyword_safetodb($data) 
 {
     if(is_array($data)){
         return array_map('safeToDb',$data);
