@@ -1,5 +1,5 @@
 <?php
-class Intraface_Keyword_StringAppender
+class Ilib_Keyword_StringAppender
 {
     private $keyword_class;
     private $appender;
