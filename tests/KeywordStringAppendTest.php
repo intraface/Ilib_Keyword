@@ -1,8 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/config.test.php';
-require_once 'PHPUnit/Framework.php';
-
-require_once 'Intraface/shared/keyword/Keyword.php';
 
 class FakeKeywordStringAppendIntranet
 {
@@ -61,7 +58,7 @@ if (!class_exists('FakeKeywordAppendObject')) {
     }
 }
 
-class MyStringKeyword extends Keyword
+class MyStringKeyword extends Ilib_Keyword
 {
     function __construct($object, $id = 0)
     {
@@ -112,12 +109,12 @@ class KeywordStringAppendTest extends PHPUnit_Framework_TestCase
 
     function createAppender()
     {
-        return new Intraface_Keyword_Appender(new FakeKeywordAppendObject);
+        return new Ilib_Keyword_Appender(new FakeKeywordAppendObject);
     }
 
     function createStringAppender()
     {
-        return new Intraface_Keyword_StringAppender($this->createKeyword(), $this->createAppender());
+        return new Ilib_Keyword_StringAppender($this->createKeyword(), $this->createAppender());
     }
 
     ///////////////////////////////////////////////////////////////

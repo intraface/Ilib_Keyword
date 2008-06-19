@@ -1,8 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/config.test.php';
-require_once 'PHPUnit/Framework.php';
-
-require_once 'Intraface/shared/keyword/Keyword.php';
 
 class FakeKeywordIntranet
 {
@@ -44,7 +41,7 @@ class FakeKeywordObject
 }
 }
 
-class MyKeyword extends Keyword
+class MyKeyword extends Ilib_Keyword
 {
     function __construct($object, $id = 0)
     {

@@ -1,8 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/config.test.php';
-require_once 'PHPUnit/Framework.php';
-
-require_once 'Intraface/shared/keyword/Keyword.php';
 
 class FakeKeywordAppendIntranet
 {
@@ -71,7 +68,7 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->keyword = new Intraface_Keyword_Appender(new FakeKeywordAppendObject);
+        $this->keyword = new Ilib_Keyword_Appender(new FakeKeywordAppendObject);
         $db = MDB2::factory(DB_DSN);
         $db->query('TRUNCATE keyword');
         $db->query('TRUNCATE keyword_x_object');
