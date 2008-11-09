@@ -23,8 +23,12 @@ $GLOBALS['_global_function_callback_safetodb'] = 'ilib_keyword_safetodb';
  */
 function ilib_keyword_safetodb($data) 
 {
+    if (is_object($data)) {
+        return $data;
+    }
+    
     if(is_array($data)){
-        return array_map('safeToDb',$data);
+        return array_map('ilib_keyword_safetodb',$data);
     }
 
     if (get_magic_quotes_gpc()) {
