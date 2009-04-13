@@ -4,6 +4,10 @@ class Ilib_Keyword_StringAppender
     private $keyword_class;
     private $appender;
 
+    /**
+     * @param object $keyword  Keyword object
+     * @param object $appender
+     */
     function __construct($keyword, $appender)
     {
         $this->keyword = $keyword;
@@ -29,7 +33,7 @@ class Ilib_Keyword_StringAppender
         $keywords = self::quotesplit(stripslashes($string), ",");
 
         if (is_array($keywords) AND count($keywords) > 0) {
-            foreach ($keywords AS $key => $value) {
+            foreach ($keywords as $key => $value) {
                 $keyword = $this->cloneKeyword();
                 if ($add_keyword_id = $keyword->save(array('id' => '', 'keyword' => $value))) {
                     $this->appender->addKeyword($keyword);
@@ -39,10 +43,6 @@ class Ilib_Keyword_StringAppender
         return true;
     }
 
-    /****************************************************************************
-     * Tools
-     ***************************************************************************/
-
     /**
      * Funktionen er en hjælpefunktion, så man bare kan skrive nøgleordene i et inputfelt
      *
@@ -51,7 +51,7 @@ class Ilib_Keyword_StringAppender
      *
      * @return array med nøgleordene
      */
-    public static function quotesplit($s, $splitter=',')
+    public static function quotesplit($s, $splitter = ',')
     {
         //First step is to split it up into the bits that are surrounded by quotes and the bits that aren't. Adding the delimiter to the ends simplifies the logic further down
         $getstrings = split('\"', $splitter.$s.$splitter);

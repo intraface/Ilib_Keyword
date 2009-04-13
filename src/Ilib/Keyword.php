@@ -140,14 +140,16 @@ class Ilib_Keyword extends Ilib_Abstract_Keyword
      */
     function __construct($object, $id = 0)
     {
+        /*
         //@todo type gaar igen som fast parameter
         $this->registerType(0, '_invalid_');
         $this->registerType(1, 'contact');
         $this->registerType(2, 'product');
         $this->registerType(3, 'cms_page');
-        $this->registerType(4, 'newfilemanager');
+        $this->registerType(4, 'ilib_filehandler');
         $this->registerType(5, 'cms_template');
         $this->registerType(6, 'vih_news');
+
 
         if (get_class($object) == 'FakeKeywordObject') {
             $this->type = 'contact';
@@ -177,6 +179,10 @@ class Ilib_Keyword extends Ilib_Abstract_Keyword
                     $this->type = 'file_handler';
                     $this->object = $object;
                     break;
+                case 'ilib_filehandler':
+                    $this->type = 'file_handler';
+                    $this->object = $object;
+                    break;
                 case 'ilib_filehandler_manager':
                     $this->type = 'file_handler';
                     $this->object = $object;
@@ -189,9 +195,18 @@ class Ilib_Keyword extends Ilib_Abstract_Keyword
                     trigger_error('Keyword got ' . get_class($object), E_USER_ERROR);
                     break;
             }
-
-            $this->kernel = $this->object->kernel;
         }
+        */
+
+        $this->object = $object;
+
+        if (!method_exists($this->object, 'getKernel')) {
+            throw new Exception('The object has to implement getKernel()');
+        }
+
+        $this->kernel = $this->object->getKernel();
+        $this->type = get_class($this->object);
+
         $extra_conditions = array('intranet_id' => $this->kernel->intranet->get('id'));
 
         parent::__construct($this->type, $extra_conditions, $id);
@@ -390,6 +405,10 @@ class Ilib_Keyword extends Ilib_Abstract_Keyword
      */
     function getAllKeywords()
     {
+        $gateway = new Ilib_Keyword_Gateway($this->extra_conditions);
+        return $gateway->getAllKeywordsFromType($this->type);
+
+        /*
         $keywords = array();
 
         $condition = $this->extra_conditions;
@@ -412,5 +431,6 @@ class Ilib_Keyword extends Ilib_Abstract_Keyword
         }
 
         return $keywords;
+        */
     }
 }

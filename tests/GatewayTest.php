@@ -5,6 +5,7 @@ require_once 'Ilib/ClassLoader.php';
 
 set_include_path(PATH_INCLUDE_PATH);
 
+if (!class_exists('FakeKeywordIntranet')) {
 class FakeKeywordIntranet
 {
     function get()
@@ -12,7 +13,9 @@ class FakeKeywordIntranet
         return 1;
     }
 }
+}
 
+if (!class_exists('FakeKeywordKernel')) {
 class FakeKeywordKernel
 {
     public $intranet;
@@ -26,6 +29,7 @@ class FakeKeywordKernel
     {
         return true;
     }
+}
 }
 
 if (!class_exists('FakeKeywordObject')) {
@@ -45,6 +49,8 @@ class FakeKeywordObject
 }
 }
 
+if (!class_exists('MyKeyword')) {
+
 class MyKeyword extends Ilib_Keyword
 {
     function __construct($object, $id = 0)
@@ -54,6 +60,8 @@ class MyKeyword extends Ilib_Keyword
         parent::__construct($object, $id);
     }
 }
+}
+if (!class_exists('FakeKeywordKeyword')) {
 
 class FakeKeywordKeyword
 {
@@ -76,16 +84,21 @@ class FakeKeywordKeyword
         return $this->keyword;
     }
 }
-
-class KeywordTest extends PHPUnit_Framework_TestCase
+}
+class GatewayTest extends PHPUnit_Framework_TestCase
 {
     protected $backupGlobals = false;
 
-    private $keyword;
+    private $gateway;
 
     function setUp()
     {
-        $this->keyword = $this->createKeyword();
+        $this->gateway = $this->getGateway();
+        $this->tearDown();
+    }
+
+    function tearDown()
+    {
         $db = MDB2::factory(DB_DSN);
         $db->query('TRUNCATE keyword');
         $db->query('TRUNCATE keyword_x_object');
@@ -94,7 +107,8 @@ class KeywordTest extends PHPUnit_Framework_TestCase
     function saveKeyword($keyword = 'test')
     {
         $data = array('keyword' => $keyword);
-        return $this->keyword->save($data);
+        $keyword = $this->createKeyword();
+        return $keyword->save($data);
     }
 
     function createKeyword($id = 0)
@@ -102,63 +116,17 @@ class KeywordTest extends PHPUnit_Framework_TestCase
         return new MyKeyword(new FakeKeywordObject, $id);
     }
 
-    //////////////////////////////////////////////////////
-
-    function testCreatesAUsableKeyword()
+    function getGateway()
     {
-        $this->assertTrue(is_object($this->keyword));
-    }
-
-    function testSaveAnEmptyArrayCreatesNoUndefinedIndexesAndReturnsFalseBecauseNoKeywordHasBeenSupplied()
-    {
-        $data = array();
-        $this->assertFalse($this->keyword->save($data));
-    }
-
-    function testSaveReturnsAnInteger()
-    {
-        $data = array('keyword' => 'test');
-        $this->assertTrue($this->keyword->save($data) > 0);
-    }
-
-    function testKeywordHasBeenPersistedAndCanBeFoundAgain()
-    {
-        $id = $this->saveKeyword();
-        $keyword = $this->createKeyword($id);
-        $this->assertEquals(1, $keyword->getId());
-        $this->assertEquals('test', $keyword->getKeyword());
-    }
-
-    /*
-    function testFactory()
-    {
-        $id = $this->saveKeyword();
-        $keyword = Keyword::factory(new FakeKeywordKernel, $id);
-        $this->assertTrue(is_object($keyword));
-        $this->assertEquals(1, $keyword->getId());
-        $this->assertEquals('test', $keyword->getKeyword());
-    }
-    */
-
-    function testDeleteReturnsTrueAndActuallyDeletesAKeyword()
-    {
-        $id = $this->saveKeyword();
-        $keyword = $this->createKeyword($id);
-        $this->assertTrue($keyword->delete());
+        return new Ilib_Keyword_Gateway();
     }
 
     function testGetAllKeywords()
     {
         $id = $this->saveKeyword();
-        $keywords = $this->keyword->getAllKeywords();
+        $keywords = $this->gateway->getAllKeywordsFromType('contact');
         $this->assertEquals(1, $keywords[0]['id']);
         $this->assertEquals('test', $keywords[0]['keyword']);
-    }
-
-    function testRegisterTypeAndGetType()
-    {
-        $this->keyword->registerType(1, 'cms');
-        $this->assertEquals(1, $this->keyword->getTypeKey('cms'));
     }
 
 }

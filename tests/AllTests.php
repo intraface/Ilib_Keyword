@@ -10,9 +10,9 @@ class AllTests
     {
         $suite = new PHPUnit_Framework_TestSuite('Intraface_Keyword');
 
-        $tests = array('Keyword', 'KeywordAppend', 'KeywordStringAppend');
+        $tests = array('Keyword', 'KeywordAppend', 'KeywordStringAppend', 'Gateway');
 
-        foreach ($tests AS $test) {
+        foreach ($tests as $test) {
             require_once $test . 'Test.php';
             $suite->addTestSuite($test . 'Test');
         }
@@ -20,4 +20,3 @@ class AllTests
         return $suite;
     }
 }
-?>

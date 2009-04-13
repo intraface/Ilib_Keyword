@@ -4,15 +4,16 @@ class Ilib_Keyword_Appender extends Ilib_Keyword
     protected $object;
     protected $type;
     protected $extra_conditions;
-    protected $belong_to_id;
+    protected $belong_to_id = 0;
     public $error;
 
     function __construct($object)
     {
+        /*
         if (get_class($object) == 'FakeKeywordAppendObject') {
             $this->type = 'contact';
             $this->object = $object;
-            $this->kernel = $object->kernel;
+            $this->kernel = $object->getKernel();
         } else {
 
             switch (strtolower(get_class($object))) {
@@ -37,7 +38,15 @@ class Ilib_Keyword_Appender extends Ilib_Keyword
                     $this->type = 'file_handler';
                     $this->object = $object;
                     break;
+                case 'ilib_filehandler':
+                    $this->type = 'file_handler';
+                    $this->object = $object;
+                    break;
                 case 'ilib_filehandler_manager':
+                    $this->type = 'file_handler';
+                    $this->object = $object;
+                    break;
+                case 'ilib_filehandler_gateway':
                     $this->type = 'file_handler';
                     $this->object = $object;
                     break;
@@ -46,17 +55,22 @@ class Ilib_Keyword_Appender extends Ilib_Keyword
                     $this->object = $object;
                     break;
                 default:
-                    trigger_error(get_class($this) . ' kræver enten Customer, CMSPage, Product eller FileManager som object', E_USER_ERROR);
+                    trigger_error(get_class($this) . ' kræver enten Customer, CMSPage, Product eller FileManager som object. Fik ' . get_class($object), E_USER_ERROR);
                     break;
             }
-
-            $this->kernel = $this->object->kernel;
-
-            $this->belong_to_id = $this->object->getId();
-            $this->error = new Ilib_Error;
-
         }
-        $this->extra_conditions = array('intranet_id' => $this->object->kernel->intranet->get('id'));
+        */
+
+        $this->object = $object;
+        $this->kernel = $this->object->getKernel();
+        $this->type = get_class($this->object);
+
+        if (method_exists($this->object, 'getId')) {
+            $this->belong_to_id = $this->object->getId();
+        }
+        $this->error = new Ilib_Error;
+
+        $this->extra_conditions = array('intranet_id' => $this->object->getKernel()->intranet->get('id'));
     }
 
     function getBelongToId()

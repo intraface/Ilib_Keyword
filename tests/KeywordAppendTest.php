@@ -41,6 +41,11 @@ class FakeKeywordAppendObject
     {
         return 1;
     }
+
+    function getKernel()
+    {
+    	return $this->kernel;
+    }
 }
 
 class FakeKeywordAppendKeyword
@@ -70,6 +75,8 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
 {
     /////////////////////////////////////////////////////////////
 
+    protected $backupGlobals = false;
+
     function setUp()
     {
         $this->keyword = new Ilib_Keyword_Appender(new FakeKeywordAppendObject);
@@ -87,7 +94,7 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
 
     ///////////////////////////////////////////////////////////////
 
-    function testAddKeyword()
+    function testAddKeywordReturnsTrueAndAddsOneKeywordByString()
     {
         $this->assertTrue($this->keyword->addKeyword($this->createKeyword()));
         $keywords = $this->keyword->getConnectedKeywords();
@@ -95,7 +102,7 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test', $keywords[0]['keyword']);
     }
 
-    function testAddKeywords()
+    function testAddKeywordsReturnsTrueAndAddsKeywordsByArray()
     {
         $keyword = $this->createKeyword();
         $keyword2 = $this->createKeyword(2, 'test 2');
@@ -105,7 +112,7 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($keywords_connected));
     }
 
-    function testGetConnectedKeywords()
+    function testGetConnectedKeywordsReturnsAnArrayWithConnectedKeywords()
     {
         $this->keyword->addKeyword($this->createKeyword());
         $keywords = $this->keyword->getConnectedKeywords();
@@ -113,7 +120,7 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test', $keywords[0]['keyword']);
     }
 
-    function testGetUsedKeywords()
+    function testGetUsedKeywordsReturnsAnArrayWithKeywordsWhichHasBeenUsed()
     {
         $this->keyword->addKeyword($this->createKeyword());
         $keywords = $this->keyword->getUsedKeywords();
@@ -121,7 +128,7 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test', $keywords[0]['keyword']);
     }
 
-    function testDeleteConnectedKeywords()
+    function testDeleteConnectedKeywordsRemovesTheKeywordFromTheObject()
     {
         $this->keyword->addKeyword($this->createKeyword());
         $this->assertTrue($this->keyword->deleteConnectedKeywords());
@@ -129,7 +136,7 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(empty($keywords));
     }
 
-    function testGetConnectedKeywordsAsString()
+    function testGetConnectedKeywordsAsStringReturnsTheKeywordsAsCSVString()
     {
         $this->keyword->addKeyword($this->createKeyword());
         $keyword2 = $this->createKeyword(2, 'test 2');

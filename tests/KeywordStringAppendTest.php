@@ -99,6 +99,8 @@ class KeywordStringAppendTest extends PHPUnit_Framework_TestCase
 {
     /////////////////////////////////////////////////////////////
 
+    protected $backupGlobals = false;
+
     function setUp()
     {
         $db = MDB2::factory(DB_DSN);
