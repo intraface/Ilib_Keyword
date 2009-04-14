@@ -42,6 +42,16 @@ if (!class_exists('FakeKeywordObject')) {
         {
             return 1;
         }
+
+        function getId()
+        {
+        	return 1;
+        }
+
+        function getKernel()
+        {
+        	return $this->kernel;
+        }
     }
 }
 
@@ -58,6 +68,16 @@ if (!class_exists('FakeKeywordAppendObject')) {
         function get()
         {
             return 1;
+        }
+
+        function getId()
+        {
+        	return 1;
+        }
+
+        function getKernel()
+        {
+        	return $this->kernel;
         }
     }
 }
@@ -103,6 +123,10 @@ class KeywordStringAppendTest extends PHPUnit_Framework_TestCase
 
     function setUp()
     {
+    }
+
+    function _tearDown()
+    {
         $db = MDB2::factory(DB_DSN);
         $db->query('TRUNCATE keyword');
         $db->query('TRUNCATE keyword_x_object');
@@ -115,7 +139,7 @@ class KeywordStringAppendTest extends PHPUnit_Framework_TestCase
 
     function createAppender()
     {
-        return new Ilib_Keyword_Appender(new FakeKeywordAppendObject);
+        return new Ilib_Keyword_Appender(new FakeKeywordObject);
     }
 
     function createStringAppender()
@@ -133,7 +157,9 @@ class KeywordStringAppendTest extends PHPUnit_Framework_TestCase
 
         $keyword_appender = $this->createAppender();
         $keywords = $keyword_appender->getConnectedKeywords();
+
         $this->assertEquals(2, count($keywords));
+
     }
 
     function testAddKeywordsByStringCanAddTheSameKeywordsTwiceInARow()
@@ -154,4 +180,5 @@ class KeywordStringAppendTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($keywords, $keywords_to_add);
     }
+
 }

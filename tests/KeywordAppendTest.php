@@ -81,10 +81,15 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
     {
         $this->keyword = new Ilib_Keyword_Appender(new FakeKeywordAppendObject);
         $db = MDB2::factory(DB_DSN);
+        $res = $db->query('INSERT into keyword SET id = 1, keyword = "test", intranet_id = 1, type="FakeKeywordAppendObject"');
+        $res = $db->query('INSERT into keyword SET id = 2, keyword = "test 2", intranet_id = 1, type="FakeKeywordAppendObject"');
+    }
+
+    function tearDown()
+    {
+        $db = MDB2::factory(DB_DSN);
         $db->query('TRUNCATE keyword');
         $db->query('TRUNCATE keyword_x_object');
-        $res = $db->query('INSERT into keyword SET id = 1, keyword = "test", intranet_id = 1, type="contact"');
-        $res = $db->query('INSERT into keyword SET id = 2, keyword = "test 2", intranet_id = 1, type="contact"');
     }
 
     function createKeyword($id = '1', $keyword = 'test')
@@ -145,7 +150,6 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('test, test 2', $string);
     }
 
-
     /*
     function testAddKeywordsByString()
     {
@@ -153,7 +157,5 @@ class KeywordAppendTest extends PHPUnit_Framework_TestCase
         $string = $this->keyword->getConnectedKeywordsAsString();
         $this->assertEquals('test, tester', $string);
     }
-
-
     */
 }

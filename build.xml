@@ -4,7 +4,7 @@
     <taskdef classname="phing.tasks.ext.IlibPearDeployerTask" name="peardeploy" />
 
     <property name="package-name" value="${phing.project.name}" />
-    <property name="version" value="0.3.1" />
+    <property name="version" value="0.3.2" />
     <property name="stability" value="alpha" />
     <property name="pear.channel" value="public.intraface.dk" />
 
@@ -19,7 +19,7 @@
 
     <target name="prepare">
         <delete dir="${build.dir}" />
-        <mkdir dir="${build.dir}" />
+    	<mkdir dir="${build.dir}" />
     </target>
 
     <target name="export">
@@ -44,7 +44,6 @@
             <summary>Makes it possible to tag items.</summary>
             <channel>${pear.channel}</channel>
             <description>
-                
                 Makes it possible to tag different items.
             </description>
             <lead user="lsolesen" name="Lars Olesen" email="lars@legestue.net" />
@@ -96,7 +95,7 @@
            --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
            --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
            --coverage-html ${reports.coverage.dir}/
-           AllTests" passthru="true" checkreturn="true" />
+           AllTests" passthru="true" checkreturn="false" />
     </target>
 
 </project>

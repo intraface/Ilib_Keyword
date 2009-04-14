@@ -46,6 +46,11 @@ class FakeKeywordObject
     {
         return 1;
     }
+
+    function getKernel()
+    {
+    	return $this->kernel;
+    }
 }
 }
 
@@ -94,10 +99,9 @@ class GatewayTest extends PHPUnit_Framework_TestCase
     function setUp()
     {
         $this->gateway = $this->getGateway();
-        $this->tearDown();
     }
 
-    function tearDown()
+    function _tearDown()
     {
         $db = MDB2::factory(DB_DSN);
         $db->query('TRUNCATE keyword');
@@ -123,11 +127,12 @@ class GatewayTest extends PHPUnit_Framework_TestCase
 
     function testGetAllKeywords()
     {
-        $id = $this->saveKeyword();
-        $keywords = $this->gateway->getAllKeywordsFromType('contact');
-        $this->assertEquals(1, $keywords[0]['id']);
+        if (!$id = $this->saveKeyword()) {
+        	$this->assertFalse(true, 'Could not save keyword');
+        }
+        $keywords = $this->gateway->getAllKeywordsFromType('FakeKeywordObject');
+        $this->assertEquals($id, $keywords[0]['id']);
         $this->assertEquals('test', $keywords[0]['keyword']);
     }
-
 }
 

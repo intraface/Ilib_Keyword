@@ -201,7 +201,7 @@ class Ilib_Keyword extends Ilib_Abstract_Keyword
         $this->object = $object;
 
         if (!method_exists($this->object, 'getKernel')) {
-            throw new Exception('The object has to implement getKernel()');
+            throw new Exception(get_class($this->object) . '-object has to implement getKernel()');
         }
 
         $this->kernel = $this->object->getKernel();

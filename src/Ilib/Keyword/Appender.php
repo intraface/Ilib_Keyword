@@ -67,6 +67,8 @@ class Ilib_Keyword_Appender extends Ilib_Keyword
 
         if (method_exists($this->object, 'getId')) {
             $this->belong_to_id = $this->object->getId();
+        } else {
+        	throw new Exception(get_class($this->object) . ' does not implement getId()');
         }
         $this->error = new Ilib_Error;
 
@@ -171,7 +173,6 @@ class Ilib_Keyword_Appender extends Ilib_Keyword
     function getConnectedKeywords()
     {
         $keywords = array();
-
         //$condition = $this->extra_conditions;
         $condition['keyword.active '] = 1;
         $condition['keyword.type '] = $this->type;
