@@ -140,6 +140,10 @@ class Ilib_Keyword extends Ilib_Abstract_Keyword
      */
     function __construct($object, $id = 0)
     {
+        if (!is_object($object)) {
+            throw new Exception('No object given');
+        }
+
         /*
         //@todo type gaar igen som fast parameter
         $this->registerType(0, '_invalid_');
