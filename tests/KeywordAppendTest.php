@@ -11,6 +11,11 @@ class FakeKeywordAppendIntranet
     {
         return 1;
     }
+
+    function getId()
+    {
+        return 1;
+    }
 }
 
 class FakeKeywordAppendKernel
@@ -38,6 +43,11 @@ class FakeKeywordAppendObject
     }
 
     function get()
+    {
+        return 1;
+    }
+
+    function getId()
     {
         return 1;
     }

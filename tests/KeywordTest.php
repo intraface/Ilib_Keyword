@@ -43,6 +43,11 @@ class FakeKeywordObject
         return 1;
     }
 
+    function getId()
+    {
+        return 1;
+    }
+
     function getKernel()
     {
     	return $this->kernel;
