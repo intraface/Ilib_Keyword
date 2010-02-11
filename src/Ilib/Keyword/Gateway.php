@@ -1,22 +1,45 @@
 <?php
 /**
- * Nøgleord
  *
- * @todo Gruppere nøgleord
- * @todo Systemnøgleord
  *
- * @author Lars Olesen <lars@legestue.net>
- * @package Ilib_Keyword
+ *
+ * PHP version 5
+ *
+ * @category
+ * @package
+ * @author     lsolesen
+ * @copyright
+ * @license   http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @version
+ * @filesource
+ * @link
  */
 class Ilib_Keyword_Gateway
 {
+    /**
+     * @var array
+     */
     private $extra_conditions;
 
+    /**
+     * Constructor
+     *
+     * @param array $extra_conditions
+     *
+     * @return void
+     */
     function __construct($extra_conditions = array())
     {
         $this->extra_conditions = $extra_conditions;
     }
 
+    /**
+     * Set conditions
+     *
+     * @param array $conditions
+     *
+     * @return void
+     */
     function setExtraConditions($conditions)
     {
     	$this->extra_conditions = $conditions;
@@ -24,6 +47,8 @@ class Ilib_Keyword_Gateway
 
     /**
      * Returns all keywords
+     *
+     * @param string $type
      *
      * @return array
      */
@@ -51,5 +76,10 @@ class Ilib_Keyword_Gateway
         }
 
         return $keywords;
+    }
+
+    function findByTypeAndId($type, $id)
+    {
+        return new Ilib_Keyword($type, $this->extra_conditions, $id);
     }
 }

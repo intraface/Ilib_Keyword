@@ -1,89 +1,50 @@
 <?php
+/**
+ *
+ *
+ *
+ * PHP version 5
+ *
+ * @category   Keyword
+ * @package    Ilib_Keyword
+ * @author     Lars Olesen <lars@intraface.dk>
+ * @copyright
+ * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @version
+ * @filesource
+ * @link
+ *
+ */
 class Ilib_Keyword_Appender extends Ilib_Keyword
 {
     protected $object;
     protected $type;
     protected $extra_conditions;
     protected $belong_to_id = 0;
-    public $error;
 
     function __construct($object)
     {
-        /*
-        if (get_class($object) == 'FakeKeywordAppendObject') {
-            $this->type = 'contact';
-            $this->object = $object;
-            $this->kernel = $object->getKernel();
-        } else {
-
-            switch (strtolower(get_class($object))) {
-                case 'contact':
-                    $this->type = 'contact';
-                    $this->object = $object;
-                    break;
-                case 'product':
-                    $this->type = 'product';
-                    $this->object = $object;
-                    $this->object->load();
-                    break;
-                case 'cms_page':
-                    $this->type = 'cms_page';
-                    $this->object = $object;
-                    break;
-                case 'cms_template':
-                    $this->type = 'cms_template';
-                    $this->object = $object;
-                    break;
-                case 'filemanager':
-                    $this->type = 'file_handler';
-                    $this->object = $object;
-                    break;
-                case 'ilib_filehandler':
-                    $this->type = 'file_handler';
-                    $this->object = $object;
-                    break;
-                case 'ilib_filehandler_manager':
-                    $this->type = 'file_handler';
-                    $this->object = $object;
-                    break;
-                case 'ilib_filehandler_gateway':
-                    $this->type = 'file_handler';
-                    $this->object = $object;
-                    break;
-                case 'vih_news':
-                    $this->type = 'vih_news';
-                    $this->object = $object;
-                    break;
-                default:
-                    trigger_error(get_class($this) . ' kræver enten Customer, CMSPage, Product eller FileManager som object. Fik ' . get_class($object), E_USER_ERROR);
-                    break;
-            }
-        }
-        */
-
         $this->object = $object;
         $this->kernel = $this->object->getKernel();
         $this->type = get_class($this->object);
 
-        if (method_exists($this->object, 'getId')) {
-            $this->belong_to_id = $this->object->getId();
-        } else {
-        	throw new Exception(get_class($this->object) . ' does not implement getId()');
-        }
-        $this->error = new Ilib_Error;
-
         $this->extra_conditions = array('intranet_id' => $this->object->getKernel()->intranet->get('id'));
     }
 
+    /**
+     * Gets belong to id
+     *
+     * @return integer
+     */
     function getBelongToId()
     {
         return $this->belong_to_id;
     }
 
     /**
-     * Denne funktion tilføjer et nøgleord til et objekt
+     * Appends a keyword to an object
      *
-     * @param integer $keyword_id
+     * @param object $keyword
      *
      * @return boolean
      */
@@ -112,7 +73,7 @@ class Ilib_Keyword_Appender extends Ilib_Keyword
     /**
      * Add keywords from an array
      *
-     * @param array $keywords
+     * @param array $keywords Keyword object
      *
      * @return boolean
      */
@@ -127,8 +88,7 @@ class Ilib_Keyword_Appender extends Ilib_Keyword
     }
 
     /**
-     * Returnerer de keywords der bliver brugt på nogle poster
-     * Især anvendelig til søgeoversigter
+     * Returns the used keywords
      *
      * @return array
      */
@@ -164,9 +124,7 @@ class Ilib_Keyword_Appender extends Ilib_Keyword
     }
 
     /**
-     * Returnerer de keywords, der er tilføjet til et objekt
-     *
-     * Det er meget mærkeligt, men den her funktion returnerer alle keywords på et intranet?
+     * Returns the keywords which has been connected to objects
      *
      * @return array
      */
@@ -233,12 +191,8 @@ class Ilib_Keyword_Appender extends Ilib_Keyword
         return true;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // INGEN DB I DE FOLGENDE
-    ///////////////////////////////////////////////////////////////////////////
-
     /**
-     * Returnerer de vedhæftede keywords som en streng
+     * Returns the connected keywords as a string
      *
      * @return string
      */

@@ -4,7 +4,7 @@
     <taskdef classname="phing.tasks.ext.IlibPearDeployerTask" name="peardeploy" />
 
     <property name="package-name" value="${phing.project.name}" />
-    <property name="version" value="0.3.2" />
+    <property name="version" value="0.4.1" />
     <property name="stability" value="alpha" />
     <property name="pear.channel" value="public.intraface.dk" />
 
@@ -19,7 +19,7 @@
 
     <target name="prepare">
         <delete dir="${build.dir}" />
-    	<mkdir dir="${build.dir}" />
+        <mkdir dir="${build.dir}" />
     </target>
 
     <target name="export">
@@ -51,13 +51,15 @@
             <license>LGPL</license>
             <version release="${version}" api="${version}" />
             <stability release="${stability}" api="${stability}" />
+            <release>
+            </release>
             <dependencies>
                 <php minimum_version="5.2.0" />
                 <pear minimum_version="1.6.0" recommended_version="1.6.1" />
-                <package name="DB_Sql" channel="public.intraface.dk" recommended_version="0.0.1" minimum_version="0.0.1" />
-                <package name="Ilib_Error" channel="public.intraface.dk" recommended_version="0.0.1" minimum_version="0.0.1" />
+                <package name="DB_Sql" channel="public.intraface.dk" recommended_version="" minimum_version="0.0.1" />
+                <package name="Ilib_Error" channel="public.intraface.dk" recommended_version="" minimum_version="0.0.1" />
             </dependencies>
-            <notes>Fixed bug where ilib_keyword_safetodb transformed object to string</notes>
+            <notes>* Bugfixes</notes>
         </d51pearpkg2>
     </target>
 
@@ -95,7 +97,7 @@
            --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
            --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
            --coverage-html ${reports.coverage.dir}/
-           AllTests" passthru="true" checkreturn="false" />
+           AllTests" passthru="true" checkreturn="true" />
     </target>
 
 </project>

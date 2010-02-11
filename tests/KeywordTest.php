@@ -52,6 +52,11 @@ class FakeKeywordObject
     {
     	return $this->kernel;
     }
+
+    function __toString()
+    {
+        return get_class($this);
+    }
 }
 }
 

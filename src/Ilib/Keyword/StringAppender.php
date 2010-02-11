@@ -1,12 +1,37 @@
 <?php
+/**
+ *
+ *
+ * PHP version 5
+ *
+ * @category   Keyword
+ * @package    Ilib_Keyword
+ * @author     Lars Olesen <lars@legestue.net>
+ * @copyright
+ * @license    http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @version
+ * @filesource
+ * @link
+ */
 class Ilib_Keyword_StringAppender
 {
+    /**
+     * @var object
+     */
     private $keyword_class;
+
+    /**
+     * @var object
+     */
     private $appender;
 
     /**
+     * Constructor
+     *
      * @param object $keyword  Keyword object
      * @param object $appender
+     *
+     * @return void
      */
     function __construct($keyword, $appender)
     {
@@ -14,6 +39,11 @@ class Ilib_Keyword_StringAppender
         $this->appender = $appender;
     }
 
+    /**
+     * Clones a keyword
+     *
+     * @return object
+     */
     function cloneKeyword()
     {
         return clone $this->keyword;
@@ -44,12 +74,12 @@ class Ilib_Keyword_StringAppender
     }
 
     /**
-     * Funktionen er en hjælpefunktion, så man bare kan skrive nøgleordene i et inputfelt
+     * Splits a string
      *
      * @param string $s        The string to split
      * @param string $splitter What splitter to use to split the string
      *
-     * @return array med nøgleordene
+     * @return array with keywords
      */
     public static function quotesplit($s, $splitter = ',')
     {
