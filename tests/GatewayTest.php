@@ -1,9 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/config.test.php';
-require_once 'PHPUnit/Framework.php';
 require_once 'Ilib/ClassLoader.php';
-
-set_include_path(PATH_INCLUDE_PATH);
 
 if (!class_exists('FakeKeywordIntranet')) {
 class FakeKeywordIntranet
